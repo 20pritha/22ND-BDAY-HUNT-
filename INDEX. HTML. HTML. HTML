@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Scavenger Hunt</title>
+<style>
+  body {
+    background-color: #046307; /* emerald green */
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  .container {
+    background: #e6f0e6; /* soft white-green */
+    color: #046307;
+    border-radius: 12px;
+    max-width: 600px;
+    padding: 30px 40px;
+    box-shadow: 0 0 15px rgba(4, 99, 7, 0.5);
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+  }
+  .clue {
+    background-color: #d0ebd0;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    white-space: pre-line;
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: 2px solid #046307;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  button {
+    margin-top: 15px;
+    background-color: #046307;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #034504;
+  }
+  .message {
+    margin-top: 15px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #1a7a1a;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Scavenger Hunt</h1>
+    <div id="clue" class="clue"></div>
+    <label for="answer">Enter your answer:</label>
+    <input type="text" id="answer" autocomplete="off" />
+    <button id="submitBtn">Submit</button>
+    <div id="message" class="message"></div>
+  </div>
+
+<script>
+  const riddles = [
+    {
+      clue: `1. *I don’t just drive — I glide with flair,*\n*A beast in purple, with curves so rare.*\n*On tracks I scream, in streets I flex,*\n*The dream machine that turns all necks.*\n*If midnight’s shade makes your heart race,*\n*Find the one who'd sell their soul for a taste.*`,
+      answer: "porsche 911 gt3 rs midnight purple"
+    },
+    {
+      clue: `2. *You measure my life in hours, I serve by being devoured. Thin I am quick, fat I am slow. The wind is my foe.*`,
+      answer: "candle"
+    },
+    {
+      clue: `3. *I once was a beast, an ant so feared,*\n*Now I serve my king, with voice that's weird.*\n*With claws so sharp and loyalty grand,*\n*I'd destroy whole armies at a wave of his hand.*\n*I bow, I hiss, I serve with pride—*\n*Find the one with Beru vibes inside.*`,
+      answer: "beru"
+    },
+    {
+      clue: `4. *She knows the plan, she’s got the charm,*\n*With her, the world’s a little more warm.*\n*She’s holding a clue, that’s no lie—*\n*Go find the one who catches his eye.*`,
+      answer: "1967"  // ALZEE
+    },
+    {
+      clue: `5. *He walks with swag, stands tall with pride,*\n*Teases you but still takes your side.*\n*He’s older, cooler, kind of sly—*\n*Go find this guy, don’t be shy!*`,
+      answer: "5731"  // SHASHANK
+    },
+    {
+      clue: `6. *He took you to sand, pretending “just chill,”*\n*But his hands were sweaty — nerves hard to kill.*\n*The waves were crashing, his voice kinda cracked,*\n*He dropped down (on purpose!) — heart fully attacked.*\n*You said “yes,” and now here we are —*\n*Find the spot where he fumbled like a star.*`,
+      answer: "6/10/2024"
+    },
+    {
+      clue: `7. *I march in squads, I roll with fate,*\n*My dice decide my soldiers' state.*\n*With paints and glue, I come to life,*\n*But on the field, I bring the strife.*\n*I'm not a toy, I’m war with flair—*\n*Find the one who builds armies with care.*`,
+      answer: "warhammer"
+    },
+    {
+      clue: `8. *I can be cracked, made, told, and played. But if you don’t get me, you just stare in dismay.*`,
+      answer: "joke"
+    },
+    {
+      clue: `9. *I’m not alive, but I grow. I have no lungs, but I need air. I have no mouth, but water kills me.*`,
+      answer: "fire"
+    },
+    {
+      clue: `10. *With vintage charm and cakes so sweet,*\n*A cozy corner, the perfect treat.*\n*Coffee brews and secrets bake,*\n*Where red velvet steals the cake.*\n*If hunger hits and vibes feel right,*\n*Find the place that’s pure delight.*`,
+      answer: "glen’s bakehouse"
+    },
+    {
+      clue: `11. *Break me, and I get stronger. Stretch me, and I snap. Ignore me, and I wither. What am I?*`,
+      answer: "trust"
+    },
+    {
+      clue: `12. *He’s wise, kind, and aging fine,*\n*With creams and oils that always shine.*\n*Skincare king with a glowing face,*\n*Find him in his self-care space.*`,
+      answer: "8642"  // NANAJI
+    },
+    {
+      clue: `13. *What number becomes smaller when you flip it upside down?*`,
+      answer: "nine"
+    },
+    {
+      clue: `14. *I exist in theory, but everyone blames me. I never speak, yet silence me and your secrets are free.*`,
+      answer: "wall"
+    },
+    {
+      clue: `15. *I’m the beginning of eternity, the end of time and space. The beginning of every end, and the end of every place.*`,
+      answer: "e"
+    },
+    {
+      clue: `16. *Small in size but big in cheer,*\n*She’s like a sister who’s always near.*\n*With laughter, love, and playful fun,*\n*She’s hiding a clue—go, little one!*`,
+      answer: "2590"  // KUHU
+    },
+    {
+      clue: `17. *What comes first when you think second, and disappears when you act?*`,
+      answer: "doubt"
+    },
+    {
+      clue: `18. *Wrapped in seaweed, cool and neat,*\n*Rice and fish, the perfect treat.*\n*I don’t need fire, I’m served raw,*\n*One bite in, you’re in love — in awe.*\n*Soy me up and take a dip,*\n*Find the fan of every sushi trip.*`,
+      answer: "sushi"
+    },
+    {
+      clue: `19. *I’m only useful once I’m broken.*`,
+      answer: "egg"
+    },
+    {
+      clue: `20. *Wings of dreams and eyes on the sky,*\n*He’s aiming high, he wants to fly.*\n*With duty and honor in his heart,*\n*Find him before he takes off to start!*`,
+      answer: "7316"  // ARVIND
+    },
+    {
+      clue: `21. *She knows where everything goes,*\n*From your socks to tasty doughs.*\n*She’s the boss and hugs you tight,*\n*Find her where things feel just right.*`,
+      answer: "4829"  // MOM
+    },
+    {
+      clue: `22. *You can’t see me, but I’m always watching. You can’t touch me, but I’m always felt. I follow you, but only in darkness.*`,
+      answer: "fear"
+    }
+  ];
+
+  let current = 0;
+  const clueElem = document.getElementById("clue");
+  const answerInput = document.getElementById("answer");
+  const submitBtn = document.getElementById("submitBtn");
+  const messageElem = document.getElementById("message");
+
+  function showClue() {
+    clueElem.innerHTML = riddles[current].clue;
+    answerInput.value = "";
+    answerInput.focus();
+    messageElem.textContent = "";
+  }
+
+  function normalize(text) {
+    return text.trim().toLowerCase();
+  }
+
+  submitBtn.addEventListener("click", () => {
+    const userAnswer = normalize(answerInput.value);
+    const correctAnswer = normalize(riddles[current].answer);
+
+    if (userAnswer === correctAnswer) {
+      current++;
+      if (current >= riddles.length) {
+        clueElem.innerHTML = "<strong>You did it BDAY BOY I LOVE YOU SO VERY MUCH ❤️🎉</strong>";
+        answerInput.style.display = "none";
+        submitBtn.style.display = "none";
+        messageElem.textContent = "";
+      } else {
+        showClue();
+      }
+    } else {
+      messageElem.textContent = "Oops, try again!";
+      answerInput.focus();
+    }
+  });
+
+  // Show the first clue on load
+  showClue();
+</script>
+</body>
+</html>
